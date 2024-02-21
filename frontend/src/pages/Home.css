@@ -1,0 +1,330 @@
+
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    margin: 0;
+    padding: 0;
+}
+
+h1 {
+    color: #333;
+    text-align: center;
+}
+
+.div_table {
+    margin: 20px;
+}
+
+.table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+}
+
+.table td, .table th {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: left;
+}
+
+.table th {
+    background-color: #f2f2f2;
+}
+
+.cancel {
+  background-color: #ff4444; /* Red color for cancel button */
+  color: #ffffff; /* White text color */
+  /* Add any additional styles for the cancel button */
+
+  /* Hover effect */
+  &:hover {
+    background-color: #ff0000; /* Darker red on hover */
+    /* Add any additional styles for the hover effect */
+  }
+}
+
+.edit {
+  background-color: #00ffff; /* Red color for cancel button */
+  color: #ffffff; /* White text color */
+  /* Add any additional styles for the cancel button */
+
+  /* Hover effect */
+  &:hover {
+    background-color: #007bff; /* Darker red on hover */
+    /* Add any additional styles for the hover effect */
+  }
+}
+
+/* Style the search box container */
+.search-box {
+  margin-bottom: 20px; /* Adjust margin as needed */
+}
+
+.simple-btn{
+  padding: 0%;
+}
+
+/* Style the label */
+.search-box label {
+  display: flex; /* Make the label a block element for better spacing */
+  font-weight: bold; /* Make the text bold, if desired */
+  margin-bottom: 5px; /* Add margin below the label */
+}
+
+/* Style the input field */
+.search-box input {
+  width: 300px; /* Make the input field fill the entire width of its container */
+  padding: 8px; /* Add padding for better visual appeal */
+  box-sizing: border-box; /* Include padding and border in the element's total width and height */
+  border: 1px solid #ccc; /* Add a border for better visibility */
+  border-radius: 4px; /* Add border-radius for rounded corners */
+}
+
+
+/* Style the input on focus */
+.search-box input:focus {
+  outline: none; /* Remove default focus outline */
+  border-color: #007bff; /* Change border color on focus, adjust as needed */
+  box-shadow: 0 0 5px rgba(0, 123, 255, 0.5); /* Add a subtle box shadow on focus */
+}
+
+/* Style the input placeholder text */
+.search-box input::placeholder {
+  color: #999; /* Adjust placeholder text color as needed */
+}
+
+
+
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .modal-content {
+    background: #fff;
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    max-width: 400px;
+    width: 100%;
+  }
+  
+  .modal-content h2 {
+    margin-bottom: 20px;
+  }
+  
+  .modal-content label {
+    display: block;
+    margin-bottom: 10px;
+  }
+  
+  .modal-content input,
+  .modal-content select {
+    width: 100%;
+    padding: 8px;
+    margin-bottom: 15px;
+    box-sizing: border-box;
+  }
+  
+  .modal-content button {
+    background-color: #007bff;
+    color: #fff;
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+  }
+  
+  .modal-content button:hover {
+    background-color: #0056b3;
+  }
+  
+  .modal-content button + button {
+    margin-left: 10px;
+    background-color: #ccc;
+    color: #333;
+  }
+  .gender-options {
+    display: flex;
+    gap: 10px; /* Adjust the gap between options as needed */
+    padding-bottom: 15px;
+  }
+  
+  .gender-option {
+    cursor: pointer;
+    padding: 5px 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    transition: background-color 0.3s;
+  }
+  
+  .gender-option:hover {
+    background-color: #f0f0f0; /* Adjust the hover background color as needed */
+  }
+  
+  .gender-option.active {
+    background-color: #007bff; /* Adjust the active background color as needed */
+    color: #fff; /* Adjust the active text color as needed */
+  }
+  
+  
+  /* Additional styles if needed */
+  
+  
+
+  .card-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+  }
+  
+  .card {
+    border: 1px solid #ddd;
+    font-size: 0.9em;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s ease-in-out;
+    cursor: pointer;
+    width: 250px; 
+    background-color: #fff;
+  }
+  
+  .card:hover {
+    transform: scale(1.03);
+  }
+  
+  .checkbox-container {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 10px;
+    margin-right: 10px;
+  }
+  
+  .card-content {
+    padding: 15px;
+  }
+  
+  .card-content p{
+    text-wrap: wrap;
+  }
+  .edit {
+    background-color: #007bff;
+    color: #fff;
+    padding: 8px 12px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .edit:hover {
+    background-color: #0056b3;
+  }
+  
+  /* Optional: Add responsive styles for smaller screens */
+  @media (max-width: 768px) {
+    .card {
+      width: 100%;
+    }
+  }
+  .dashboard {
+    padding: 20px;
+    background-color: #f2f2f2;
+}
+
+.dept_container {
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+h1 {
+    color: #333;
+}
+
+.depts {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.depts div {
+    flex: 1;
+    margin: 10px;
+    padding: 15px;
+    background-color: #fff;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    max-width: 145px;
+}
+
+.dept_card:hover{
+    box-shadow: 0 6px 12px rgba(0,0,0,.175);
+}
+h3 {
+    color: #007BFF;
+}
+
+.dept_details {
+    margin-top: 10px;
+}
+
+p {
+    margin: 5px 0;
+    color: #555;
+}
+
+@media (max-width: 768px) {
+    .dept_container {
+      max-width: 100%;
+    }
+
+    .depts div{
+        max-width: 100%;
+    }
+  }
+  .MainNavbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+    background-color: #007BFF;
+    color: #fff;
+}
+
+.MainNavbar h3 {
+    margin: 0;
+    cursor: pointer;
+    color: #fff;
+}
+
+.Navbar {
+    display: flex;
+    align-items: center;
+}
+
+.nav {
+    display: flex;
+}
+
+button {
+    margin: 0 10px;
+    padding: 8px 12px;
+    cursor: pointer;
+    background-color: #fff;
+    color: #007BFF;
+    border: none;
+    border-radius: 5px;
+}
+
+button:hover {
+    background-color: #007BFF;
+    color: #fff;
+}
