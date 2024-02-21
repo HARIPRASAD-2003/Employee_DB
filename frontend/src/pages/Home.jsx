@@ -43,7 +43,7 @@ const Home = () => {
   const fetchData = async () => {
     try {
       console.log("fetchData");
-      const response = await axios.get(`http://localhost:5000/employees/${search}`);
+      const response = await axios.get(`https://emp-db-zj0y.onrender.com/employees/${search}`);
       if (sort === "asc") {
         var sortedData = [...response.data];
         sortedData.sort((a, b) => (a.salary > b.salary) ? 1 : -1);
@@ -70,7 +70,7 @@ const Home = () => {
             alert("employeeId  already exists!");
             return;
         }
-      const res = await axios.post(`http://localhost:5000/add_employee`, {
+      const res = await axios.post(`https://emp-db-zj0y.onrender.com/add_employee`, {
         employeeName: employeeName, employeeId:employeeId, department:department, dob:dob, gender:gender, designation:designation, salary:salary
       });
       if(res.status===200){
@@ -98,7 +98,7 @@ const Home = () => {
         alert("No employee is selected!!");
         return;
       }
-      const res = await axios.post("http://localhost:5000/delete_employee", { ids: selectedData });
+      const res = await axios.post("https://emp-db-zj0y.onrender.com/delete_employee", { ids: selectedData });
       if (res.status !== 200) {
         throw new Error("Failed to delete employees");
       }
@@ -122,7 +122,7 @@ const Home = () => {
             alert("employeeId  already exists!");
             return;
         }
-      const res = await axios.post(`http://localhost:5000/update_employee/${employeeIdToUpdate}`, {
+      const res = await axios.post(`https://emp-db-zj0y.onrender.com/update_employee/${employeeIdToUpdate}`, {
         employeeName: employeeName, employeeId:employeeId, department:department, dob:dob, gender:gender, designation:designation, salary:salary
       });
       if(res.status !== 200) {
