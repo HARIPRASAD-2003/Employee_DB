@@ -1,0 +1,49 @@
+/* Report.css */
+.report-container {
+    max-width: 600px;
+    margin: 50px auto;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  }
+  
+  .report-title {
+    color: #333;
+  }
+  
+  .report-form {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .report-label {
+    margin-top: 10px;
+    color: #555;
+  }
+  
+  .report-select,
+  .report-input,
+  .report-textarea {
+    width: 100%;
+    padding: 8px;
+    margin-top: 5px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+  }
+  
+  .report-button {
+    background-color: #4caf50;
+    color: #fff;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  
+  .report-button:hover {
+    background-color: #45a049;
+  }
+  

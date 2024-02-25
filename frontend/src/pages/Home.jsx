@@ -20,6 +20,10 @@ const Home = () => {
   const [search, setSearch] = useState("");
   const [grid, setGrid] = useState(true);
   const [sort, setSort] = useState("");
+  const [currentPage, setCurrentPage] = useState(1);
+  const [pageSize, setPageSize] = useState(5);
+  const [role, setRole] = useState(null);
+  const [tot, setTot] = useState(0);
 
   const openModal = () => {
     setSelect(false);
@@ -43,7 +47,13 @@ const Home = () => {
   const fetchData = async () => {
     try {
       console.log("fetchData");
-      const response = await axios.get(`https://emp-db-zj0y.onrender.com/employees/${search}`);
+      const response = await axios.get(`https://emp-db-zj0y.onrender.com/employees/${search}?page=${currentPage}&pageSize=${pageSize}`);
+      let res = await axios.get(`https://emp-db-zj0y.onrender.com/tot_emp/${search}`);
+      if (res.status === 200) {
+        console.log(res);
+        // (res.data.data);
+        setTot(res.data.tot);
+      }
       if (sort === "asc") {
         var sortedData = [...response.data];
         sortedData.sort((a, b) => (a.salary > b.salary) ? 1 : -1);
@@ -62,13 +72,21 @@ const Home = () => {
 
   const handleAdd = async () => {
     try {
-        const emp_ids = data.map(employee => employee.employeeId);
+        const emp_ids = data.map(employee => employee.employeeId.toLowerCase());
+        console.log(emp_ids);
+        console.log(new Date(dob));
         if(employeeId ==="" || employeeName==="" || department==="" || designation==="" || gender==="" || salary===""){
             alert("Incomplete Details");
             return ;
-        }else if(emp_ids.includes(employeeId)){
+        }else if(emp_ids.includes(employeeId.toLowerCase())){
             alert("employeeId  already exists!");
             return;
+        }else if (isNaN(new Date(dob))) {
+          alert("Invalid date of birth");
+          return;      
+        }else if(new Date(dob) >= Date.now()){
+          alert("emp dob");
+          return;
         }
       const res = await axios.post(`https://emp-db-zj0y.onrender.com/add_employee`, {
         employeeName: employeeName, employeeId:employeeId, department:department, dob:dob, gender:gender, designation:designation, salary:salary
@@ -82,6 +100,7 @@ const Home = () => {
       }
       // alert("Employee Added  Successfully!");
     } catch (error) {
+      console.log(error);
       alert("Error adding employee:", error);
     }
   };
@@ -114,13 +133,11 @@ const Home = () => {
   const handleUpdate = async () => {
     try {
         let emp_ids = data.map((employee) => employee.employeeId);
-        emp_ids = emp_ids.filter(id => id!==employeeId);
+        emp_ids = emp_ids.map((id)=> id.toLowerCase());
+        console.log(emp_ids);
         if(employeeId ==="" || employeeName==="" || department==="" || designation==="" || gender==="" || salary===""){
             alert("Incomplete Details");
             return ;
-        }else if(emp_ids.includes(employeeId)){
-            alert("employeeId  already exists!");
-            return;
         }
       const res = await axios.post(`https://emp-db-zj0y.onrender.com/update_employee/${employeeIdToUpdate}`, {
         employeeName: employeeName, employeeId:employeeId, department:department, dob:dob, gender:gender, designation:designation, salary:salary
@@ -129,13 +146,15 @@ const Home = () => {
         throw new Error("Updation Failed!");
       }
       alert("Updated Successfully");
+      closeModal();
     } catch (err) {
       alert(err.message || "An error occurred");
       console.log(err);
+      closeModal();
     } finally {
       fetchData();
       setUpdate(false);
-      closeModal();
+      // closeModal();
     }
   }
 
@@ -151,16 +170,21 @@ const Home = () => {
     setShowEdit(true);
   }
 
+  const fetchUser = async() => {
+    setRole(await JSON.parse(localStorage.getItem("type")));
+  }
+
   useEffect(() => {
     fetchData();
-  }, [search, sort]);
+    fetchUser();
+  }, [search, sort, pageSize, currentPage]);
 
   return (
     <div>
       <div className='div_table'>
-        <h1>Employee Details</h1>
+        <h1>{(role?.role==="admin")?"Admin Console":"Employee Details"}</h1>
         <div className='search-box'>
-          <label htmlFor='search_name'>Search by Name</label>
+          <label htmlFor='search_name'>Search</label>
           <input
             id='search_name'
             type='text'
@@ -168,9 +192,19 @@ const Home = () => {
             placeholder='Search'
             onChange={(e) => setSearch(e.target.value)}
           />
-          <p>Employees: {data.length}</p>
+          {/* <p>Employees: {data.length}</p> */}
         </div>
-        <div className='top-container' style={{ display: 'flex', justifyContent: 'space-evenly' }}>
+        <div className='search-box'>
+
+          <label>No. of Employees: {tot}</label><br />
+          </div>
+          <div className='search-box' >
+          <label>No of Employees per Page: </label>
+          <button className={(pageSize===5)?`static-btn`:''} onClick={()=> setPageSize(5)}>5</button>
+          <button className={(pageSize===10)?`static-btn`:''} onClick={()=> setPageSize(10)}>10</button>
+          <button className={(pageSize===20)?`static-btn`:''} onClick={()=> setPageSize(20)}>20</button>
+          </div>
+        {(role?.role==="admin")&&<div className='top-container' style={{ display: 'flex', justifyContent: 'space-evenly' }}>
           <button onClick={openModal}>Add Employee</button>
           {select && <button onClick={handleDelete}>Delete Employee</button>}
           {!select ? <button onClick={handleSelect}>Select Employee</button> : <button className='cancel' onClick={handleSelect} >Cancel</button>}
@@ -178,7 +212,7 @@ const Home = () => {
             {!update ? <button onClick={() => setUpdate(!update)}>Update</button> : <button className='cancel' onClick={() => setUpdate(!update)}>Cancel</button>}
           </div>}
           <button onClick={() => setGrid(!grid)}>{(!grid) ? "Grid" : "Box"}</button>
-        </div>
+        </div>}
         {grid ? <table className='table'>
           <thead>
             <tr>
@@ -210,7 +244,7 @@ const Home = () => {
                   <input type='checkbox' checked={selectedData.includes(employee.id)} />
                 </td>}
                 <td>{index + 1}</td>
-                <td>{employee.employeeId}</td>
+                <td>{employee.employeeId.toLowerCase()}</td>
                 <td>{employee.employeeName}</td>
                 <td>{employee.department}</td>
                 <td>{employee.dob}</td>
@@ -233,7 +267,7 @@ const Home = () => {
                 {select && <div className='checkbox-container'><input type='checkbox' checked={selectedData.includes(employee._id)} /></div>}
                 <div className='card-content'>
                   <div><b>S.No:</b> {index + 1}</div>
-                  <div><b>Employee ID:</b> <p>{employee.employeeId}</p></div>
+                  <div><b>Employee ID:</b> <p>{employee.employeeId.toLowerCase()}</p></div>
                   <div><b>Name:</b> <p>{employee.employeeName}</p></div>
                   <div><b>Department:</b> <p>{employee.department}</p></div>
                   <div><b>DOB:</b> <p>{employee.dob}</p></div>
@@ -246,6 +280,17 @@ const Home = () => {
             ))}
           </div>
         }
+        <div className='page-controls'>
+          <button onClick={() => setCurrentPage(currentPage - 1)} disabled={currentPage === 1}>
+            Back
+          </button>
+          <div>
+            <span>{`Page ${currentPage} of ${Math.ceil(tot / pageSize)}`}</span>
+          </div>
+          <button onClick={() => setCurrentPage(currentPage + 1)} disabled={currentPage * pageSize >= tot}>
+            Next
+          </button>
+        </div>
       </div>
       {showModal &&
         <div className='modal-overlay'>
@@ -256,6 +301,7 @@ const Home = () => {
               type='text'
               id='employeeId'
               value={employeeId}
+              placeholder='eg: emp00001'
               maxLength={8}
               onChange={(e) => setEmployeeId(e.target.value)}
             />
@@ -342,7 +388,7 @@ const Home = () => {
               type='text'
               id='employeeId'
               value={employeeId}
-              onChange={(e) => setEmployeeId(e.target.value)}
+              // onChange={(e) => setEmployeeId(e.target.value)}
             />
             <label htmlFor='employeeName'>Name:</label>
             <input

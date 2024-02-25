@@ -1,0 +1,23 @@
+/* ViewReport.css */
+.view-report-container {
+    max-width: 600px;
+    margin: 50px auto;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  }
+  
+  .view-report-title {
+    color: #333;
+  }
+  
+  .report-list {
+    list-style: none;
+    padding: 0;
+  }
+  
+  .report-item {
+    margin-bottom: 20px;
+  }
+  
