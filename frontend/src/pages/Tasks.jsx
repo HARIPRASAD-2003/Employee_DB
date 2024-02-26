@@ -9,13 +9,9 @@ const Tasks = () => {
   const [change, setChange] = useState(false);
   const [title, setTitle] = useState("");
   const [empId, setEmpId] = useState("");
+  const [selectEmpId, setSelectEmpId] = useState("");
   const [allTasks, setAllTasks] = useState([]);
-  const [tasks, setTasks] = useState([
-    { id: 1, title: 'Complete project report', status: 'In Progress', emp_user: 'emp00001' },
-    { id: 2, title: 'Attend team meeting', status: 'Pending', emp_user: 'emp00002' },
-    { id: 3, title: 'Review code changes', status: 'Completed', emp_user: 'emp00003' },
-    // Add more tasks as needed
-  ]);
+  const [tasks, setTasks] = useState([]);
 
   const fetchUser = async() => {
     console.log(JSON.parse(localStorage.getItem("user")));
@@ -130,13 +126,26 @@ const Tasks = () => {
             </select>
             <button onClick={()=> handleAssignTask()}>Add Task</button>
           </div>
-          <ul className="tasks-list">
+          <br />
+          <div className='task-container'>
+            <h2>All Tasks</h2>
+            <div className='add-task-form'>
+              <select className='' value={selectEmpId} onChange={(e)=>setSelectEmpId(e.target.value)} >
+                  <option value="">Select Employee</option>
+                  {data.map((emp)=>(<option key={emp.id} value={emp?.id}>{emp?.employeeId.toUpperCase()} {emp?.employeeName}</option>))}
+                  {/* Add more options as needed */}
+              </select>
+            </div>
+
+          </div>
+            {/* <div><b>EmpId:</b><p>{selectEmpId.toLowerCase()}</p>
+            <b>count:</b><p>{allTasks.filter((t)=>t.emp_id.toString()===selectEmpId.toString()).length}</p></div> */}
+          {(selectEmpId==="") ? <ul className="tasks-list">
             {allTasks.map((task) => (
               <li key={task.id} className={`task-item ${task.stats.toLowerCase()}`}>
                 <div>
                   <strong>{task.title}</strong>
                 </div>
-                {/* <br /> */}
                 <div className="status-container">
                   <span>Status: {task?.stats}</span>
                   </div>
@@ -145,7 +154,21 @@ const Tasks = () => {
                 </div>
               </li>
             ))}
-          </ul>
+          </ul> : <ul className="tasks-list">
+            {allTasks.filter((t)=>t.emp_id.toString()===selectEmpId.toString()).map((task) => (
+              <li key={task.id} className={`task-item ${task.stats.toLowerCase()}`}>
+                <div>
+                  <strong>{task.title}</strong>
+                </div>
+                <div className="status-container">
+                  <span>Status: {task?.stats}</span>
+                  </div>
+                  <div className='status-container'>
+                  <span>Assigned to: {task?.e_id.toLowerCase()}</span>
+                </div>
+              </li>
+            ))}
+          </ul>}
         </div>
 
       )}
