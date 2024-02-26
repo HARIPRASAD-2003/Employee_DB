@@ -87,7 +87,7 @@ const Tasks = () => {
       {(role?.role === "user") && (
         <div className="tasks-container">
           <h2>My Tasks</h2>
-          {tasks.length === 0 ? (
+          {allTasks.length === 0 ? (
             <p>No tasks assigned.</p>
           ) : (
             <ul className="tasks-list">
